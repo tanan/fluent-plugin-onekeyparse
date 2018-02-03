@@ -20,6 +20,14 @@ module Fluent
     class OnekeyparseFilter < Fluent::Plugin::Filter
       Fluent::Plugin.register_filter("onekeyparse", self)
 
+      config_param :regexp, :string
+      config_param :key_names, :string
+
+      def configure(conf)
+        super
+        @reg = Regexp.new(conf['regexp'], Regexp::IGNORECASE)
+      end
+
       def filter(tag, time, record)
         m = @reg.match(record[@key_names])
         unless m
@@ -27,6 +35,19 @@ module Fluent
           return
         end
         m
+      end
+
+      def filter_stream(tag, es)
+        new_es = MultiEventStream.new
+        es.each { |time, record|
+          begin
+            filtered_record = filter(tag, time, record)
+            new_es.add(time, filtered_record) if filtered_record
+          rescue => e
+            router.emit_error_event(tag, time, record, e)
+          end
+        }
+        new_es
       end
     end
   end
