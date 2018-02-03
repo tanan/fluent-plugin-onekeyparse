@@ -36,7 +36,11 @@ module Fluent
           nil
           return
         end
-        m
+        record = {}
+        @out_record_keys.split(",").each do | key |
+          record[key] = m[key]
+        end
+        record
       end
 
       def filter_stream(tag, es)
