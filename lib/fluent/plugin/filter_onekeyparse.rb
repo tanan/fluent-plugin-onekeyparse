@@ -20,16 +20,18 @@ module Fluent
     class OnekeyparseFilter < Fluent::Plugin::Filter
       Fluent::Plugin.register_filter("onekeyparse", self)
 
-      config_param :regexp, :string
-      config_param :key_names, :string
+      config_param :in_format, :string
+      config_param :in_key, :string
+      config_param :out_record_keys, :string
+      config_param :out_record_types, :string
 
       def configure(conf)
         super
-        @reg = Regexp.new(conf['regexp'], Regexp::IGNORECASE)
+        @reg = Regexp.new(conf['in_format'], Regexp::IGNORECASE)
       end
 
       def filter(tag, time, record)
-        m = @reg.match(record[@key_names])
+        m = @reg.match(record[@in_key])
         unless m
           nil
           return
