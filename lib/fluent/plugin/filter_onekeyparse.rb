@@ -21,6 +21,12 @@ module Fluent
       Fluent::Plugin.register_filter("onekeyparse", self)
 
       def filter(tag, time, record)
+        m = @reg.match(record[@key_names])
+        unless m
+          nil
+          return
+        end
+        m
       end
     end
   end
