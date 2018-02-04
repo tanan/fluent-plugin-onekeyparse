@@ -39,7 +39,6 @@ class OnekeyparseFilterTest < Test::Unit::TestCase
         d.feed(@time, message)
       }
     }
-    p d
     d.filtered_records
   end
 
