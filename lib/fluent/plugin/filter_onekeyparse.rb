@@ -36,9 +36,11 @@ module Fluent
           nil
           return
         end
+
+        hash = m.named_captures
         record = {}
         @out_record_keys.split(",").each do | key |
-          record[key] = m.has_key?(:key) ?  m[key] : nil
+          record[key] = hash.has_key?(key) ?  hash[key] : nil
         end
         record
       end
