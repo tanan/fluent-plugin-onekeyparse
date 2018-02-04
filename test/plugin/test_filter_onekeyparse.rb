@@ -43,7 +43,7 @@ class OnekeyparseFilterTest < Test::Unit::TestCase
   end
 
   sub_test_case "filter" do
-    test "check filter" do
+    test "check all column" do
       messages = [
         {'key1' => 'test1 test2 test3', 'key2' => 'hoge'}
       ]
@@ -55,6 +55,27 @@ class OnekeyparseFilterTest < Test::Unit::TestCase
         }
       ]
       filtered = filter(CONFIG, messages)
+      assert_equal(expected, filtered)
+    end
+
+    test "check extract column" do
+      config = %[
+        in_format ^(?<val1>[^ ]*) (?<val2>[^ ]*) (?<val3>[^ ]*)$
+        in_key key1
+        out_record_keys val1,val3
+        out_record_types string,string,string
+      ]
+
+      messages = [
+        {'key1' => 'test1 test2 test3', 'key2' => 'hoge'}
+      ]
+      expected = [
+        {
+          'val1' => 'test1',
+          'val3' => 'test3',
+        }
+      ]
+      filtered = filter(config, messages)
       assert_equal(expected, filtered)
     end
   end
