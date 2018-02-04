@@ -5,7 +5,7 @@
 ## Requirements
 | fluent-plugin-onkeyparse | fluentd | ruby |
 |:-------------------------|:--------|:-----|
-| >= v0.1.0 | >= v0.14.20 | >= v2.4|
+| >= v0.1.0 | >= v0.14 | >= v2.4.3|
 
 
 ## Installation
