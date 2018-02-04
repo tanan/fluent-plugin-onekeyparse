@@ -1,8 +1,6 @@
 # fluent-plugin-onekeyparse
 
-[Fluentd](https://fluentd.org/) filter plugin to do something.
-
-TODO: write description for you plugin.
+[Fluentd](https://fluentd.org/) filter plugin to parse values of your selected key.
 
 ## Installation
 
@@ -27,6 +25,25 @@ $ bundle
 ```
 
 ## Configuration
+
+| name | type | description |
+|:-----|:-----|:------------|
+| in_format | string | parser format |
+| in_key | string | a key you want to parse |
+| out_record_keys | string | output record keys |
+| out_record_types | string | output record types |
+
+A sample configuration is following.
+
+```
+<filter>
+  @type onekeyparse
+  in_format ^(?<val1>[^ ]*) (?<val2>[^ ]*) (?<val3>[^ ]*)$
+  in_key key1
+  out_record_keys val1,val2,val3
+  out_record_types string,string,string
+</filter>
+```
 
 You can generate configuration template:
 
