@@ -38,7 +38,7 @@ module Fluent
         end
         record = {}
         @out_record_keys.split(",").each do | key |
-          record[key] = m[key]
+          record[key] = m.has_key?(:key) ?  m[key] : nil
         end
         record
       end
